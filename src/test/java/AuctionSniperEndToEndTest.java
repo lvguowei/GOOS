@@ -1,9 +1,31 @@
-import org.junit.Assert;
+import com.guowei.lv.ApplicationRunner;
+import com.guowei.lv.FakeAuctionServer;
+import org.junit.After;
 import org.junit.Test;
 
 public class AuctionSniperEndToEndTest {
+
+    private final FakeAuctionServer auction = new FakeAuctionServer("item-54321");
+    private final ApplicationRunner application = new ApplicationRunner();
+
     @Test
-    public void dummy() {
-        Assert.assertTrue(true);
+    public void sniperJoinsAuctionUntilAuctionCloses() {
+        auction.startSellingItem();
+        application.startBiddingIn(auction);
+        auction.hasReceivedJoinRequestFromSniper();
+        application.showSniperHasLostAuction();
     }
+
+    @After
+    public void stopAuction() {
+        auction.stop();
+    }
+
+    @After
+    public void stopApplication() {
+        auction.stop();
+    }
+
+
+
 }
