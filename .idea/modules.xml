@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/goos.iml" filepath="$PROJECT_DIR$/.idea/modules/goos.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/goos_main.iml" filepath="$PROJECT_DIR$/.idea/modules/goos_main.iml" group="goos" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/goos_test.iml" filepath="$PROJECT_DIR$/.idea/modules/goos_test.iml" group="goos" />
+    </modules>
+  </component>
+</project>
