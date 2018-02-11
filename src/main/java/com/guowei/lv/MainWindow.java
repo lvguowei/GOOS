@@ -9,7 +9,6 @@ import static com.guowei.lv.Main.STATUS_JOINING;
 public class MainWindow extends JFrame {
 
     public static final String SNIPER_STATUS_NAME = "sniper status";
-    public static final String STATUS_LOST = "Lost";
     private final JLabel sniperStatus = createLabel(STATUS_JOINING);
 
     public MainWindow() {
