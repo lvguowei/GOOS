@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class Main {
+public class Main implements AuctionEventListener {
     private static final int ARG_HOSTNAME = 0;
     private static final int ARG_USERNAME = 1;
     private static final int ARG_PASSWORD = 2;
@@ -55,7 +55,7 @@ public class Main {
 
     private void joinAuction(XMPPConnection connection, String itemId) throws XMPPException {
         disconnectWhenUICloses(connection);
-        final Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection), (c, message) -> SwingUtilities.invokeLater(() -> ui.showStatus(STATUS_LOST)));
+        final Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection), new AuctionMessageTranslator(this));
         notToBeGCd = chat;
         chat.sendMessage(JOIN_COMMAND_FORMAT);
     }
@@ -72,5 +72,10 @@ public class Main {
 
     private static String auctionId(String itemId, XMPPConnection connection) {
         return String.format(AUCTION_ID_FORMAT, itemId, connection.getServiceName());
+    }
+
+    @Override
+    public void auctionClosed() {
+        SwingUtilities.invokeLater(() -> ui.showStatus(STATUS_LOST));
     }
 }
