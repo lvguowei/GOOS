@@ -6,7 +6,7 @@ import org.jivesoftware.smack.packet.Message;
 
 import java.util.HashMap;
 
-public class AuctionMessageTranslator implements MessageListener{
+public class AuctionMessageTranslator implements MessageListener {
     private AuctionEventListener listener;
 
     public AuctionMessageTranslator(AuctionEventListener listener) {
