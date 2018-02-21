@@ -8,7 +8,11 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class Main implements SniperListener {
+import static com.guowei.lv.MainWindow.STATUS_BIDDING;
+import static com.guowei.lv.MainWindow.STATUS_LOST;
+import static com.guowei.lv.MainWindow.STATUS_WINNING;
+
+public class Main {
     private static final int ARG_HOSTNAME = 0;
     private static final int ARG_USERNAME = 1;
     private static final int ARG_PASSWORD = 2;
@@ -25,9 +29,7 @@ public class Main implements SniperListener {
 
     private Chat notToBeGCd;
 
-    public static final String STATUS_JOINING = "Joining";
-    public static final String STATUS_LOST = "Lost";
-    public static final String STATUS_BIDDING = "Bidding";
+
 
     public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
     public static final String SNIPER_STATUS_NAME = "sniper status";
@@ -59,7 +61,7 @@ public class Main implements SniperListener {
         notToBeGCd = chat;
 
         Auction auction = new XMPPAuction(chat);
-        chat.addMessageListener(new AuctionMessageTranslator(new AuctionSniper(auction, this)));
+        chat.addMessageListener(new AuctionMessageTranslator(new AuctionSniper(auction, new SniperStateDisplayer())));
         auction.join();
     }
 
@@ -77,13 +79,26 @@ public class Main implements SniperListener {
         return String.format(AUCTION_ID_FORMAT, itemId, connection.getServiceName());
     }
 
-    @Override
-    public void sniperLost() {
-        SwingUtilities.invokeLater(() -> ui.showStatus(STATUS_LOST));
-    }
 
-    @Override
-    public void sniperBidding() {
-        SwingUtilities.invokeLater(() -> ui.showStatus(STATUS_BIDDING));
+    private class SniperStateDisplayer implements SniperListener {
+
+        @Override
+        public void sniperLost() {
+            showStatus(STATUS_LOST);
+        }
+
+        @Override
+        public void sniperBidding() {
+            showStatus(STATUS_BIDDING);
+        }
+
+        @Override
+        public void sniperWinning() {
+            showStatus(STATUS_WINNING);
+        }
+
+        private void showStatus(final String status) {
+            SwingUtilities.invokeLater(() -> ui.showStatus(status));
+        }
     }
 }
