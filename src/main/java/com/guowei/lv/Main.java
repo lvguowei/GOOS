@@ -8,9 +8,7 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import static com.guowei.lv.MainWindow.STATUS_BIDDING;
-import static com.guowei.lv.MainWindow.STATUS_LOST;
-import static com.guowei.lv.MainWindow.STATUS_WINNING;
+import static com.guowei.lv.MainWindow.*;
 
 public class Main {
     private static final int ARG_HOSTNAME = 0;
@@ -95,6 +93,11 @@ public class Main {
         @Override
         public void sniperWinning() {
             showStatus(STATUS_WINNING);
+        }
+
+        @Override
+        public void sniperWon() {
+            showStatus(STATUS_WON);
         }
 
         private void showStatus(final String status) {
