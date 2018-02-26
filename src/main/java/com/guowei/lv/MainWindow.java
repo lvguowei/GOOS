@@ -6,6 +6,9 @@ import java.awt.*;
 
 public class MainWindow extends JFrame {
 
+    private static final String SNIPERS_TABLE_NAME = "Snipers Table";
+    private final SnipersTableModel snipers = new SnipersTableModel();
+
     public static final String SNIPER_STATUS_NAME = "sniper status";
 
     public static final String STATUS_JOINING = "Joining";
@@ -14,15 +17,29 @@ public class MainWindow extends JFrame {
     public static final String STATUS_BIDDING = "Bidding";
     public static final String STATUS_WINNING = "Winning";
 
-
-    private final JLabel sniperStatus = createLabel(STATUS_JOINING);
-
     public MainWindow() {
         super("Auction Sniper");
         setName(Main.MAIN_WINDOW_NAME);
-        add(sniperStatus);
+        fillContentPanel(makeSnipersTable());
+        pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+    }
+
+    private void fillContentPanel(JTable snipersTable) {
+        final Container contentPane = getContentPane();
+        contentPane.setLayout(new BorderLayout());
+        contentPane.add(new JScrollPane(snipersTable), BorderLayout.CENTER);
+    }
+
+    private JTable makeSnipersTable() {
+        final JTable snipersTable = new JTable(snipers);
+        snipersTable.setName(SNIPERS_TABLE_NAME);
+        return snipersTable;
+    }
+
+    public void showStatusText(String statusText) {
+        snipers.setStatusText(statusText);
     }
 
     private static JLabel createLabel(String initialText) {
@@ -30,9 +47,5 @@ public class MainWindow extends JFrame {
         result.setName(SNIPER_STATUS_NAME);
         result.setBorder(new LineBorder(Color.BLACK));
         return result;
-    }
-    
-    public void showStatus(String status) {
-        sniperStatus.setText(status);
     }
 }
