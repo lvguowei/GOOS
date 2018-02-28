@@ -12,10 +12,12 @@ import static com.guowei.lv.AuctionEventListener.PriceSource.FromSniper;
 
 @RunWith(JMock.class)
 public class AuctionSniperTest {
+    private static final String ITEM_ID = "test item id";
+
     private final Mockery context = new Mockery();
     private final SniperListener sniperListener = context.mock(SniperListener.class);
     private final Auction auction = context.mock(Auction.class);
-    private final AuctionSniper sniper = new AuctionSniper(auction, sniperListener);
+    private final AuctionSniper sniper = new AuctionSniper(ITEM_ID, auction, sniperListener);
     private final States sniperState = context.states("sniper");
 
     @Test
@@ -31,7 +33,7 @@ public class AuctionSniperTest {
     public void reportsLostIfAuctionClosesWhenBidding() {
         context.checking(new Expectations() {{
             ignoring(auction);
-            allowing(sniperListener).sniperBidding();
+            allowing(sniperListener).sniperBidding(with(any(SniperState.class)));
             then(sniperState.is("bidding"));
 
             atLeast(1).of(sniperListener).sniperLost();
@@ -46,9 +48,10 @@ public class AuctionSniperTest {
     public void bidHigherAndReportsBiddingWhenNewPriceArrives() {
         final int price = 1001;
         final int increment = 25;
+        final int bid = price + increment;
         context.checking(new Expectations() {{
-            oneOf(auction).bid(price + increment);
-            atLeast(1).of(sniperListener).sniperBidding();
+            oneOf(auction).bid(bid);
+            atLeast(1).of(sniperListener).sniperBidding(new SniperState(ITEM_ID, price, bid));
         }});
 
         sniper.currentPrice(price, increment, FromOtherBidder);
