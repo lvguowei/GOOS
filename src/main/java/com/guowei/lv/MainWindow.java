@@ -9,8 +9,6 @@ public class MainWindow extends JFrame {
     private static final String SNIPERS_TABLE_NAME = "Snipers Table";
     private final SnipersTableModel snipers = new SnipersTableModel();
 
-    public static final String SNIPER_STATUS_NAME = "sniper status";
-
     public static final String STATUS_JOINING = "Joining";
     public static final String STATUS_LOST = "Lost";
     public static final String STATUS_WON = "Won";
@@ -42,10 +40,7 @@ public class MainWindow extends JFrame {
         snipers.setStatusText(statusText);
     }
 
-    private static JLabel createLabel(String initialText) {
-        JLabel result = new JLabel(initialText);
-        result.setName(SNIPER_STATUS_NAME);
-        result.setBorder(new LineBorder(Color.BLACK));
-        return result;
+    public void sniperStatusChanged(SniperState state, String statusText) {
+        snipers.sniperStatusChanged(state, statusText);
     }
 }

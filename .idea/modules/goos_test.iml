@@ -17,7 +17,7 @@
     <orderEntry type="library" name="Gradle: org.jmock:jmock-legacy:2.6.0" level="project" />
     <orderEntry type="library" name="Gradle: com.googlecode.windowlicker:windowlicker-swing:r268" level="project" />
     <orderEntry type="library" name="Gradle: org.jmock:jmock:2.6.0" level="project" />
-    <orderEntry type="library" name="Gradle: org.hamcrest:hamcrest-library:1.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.hamcrest:hamcrest-library:1.3" level="project" />
     <orderEntry type="library" name="Gradle: org.hamcrest:hamcrest-core:1.3" level="project" />
     <orderEntry type="library" name="Gradle: junit:junit-dep:4.4" level="project" />
     <orderEntry type="library" name="Gradle: org.objenesis:objenesis:1.0" level="project" />

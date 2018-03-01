@@ -30,7 +30,6 @@ public class Main {
 
 
     public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
-    public static final String SNIPER_STATUS_NAME = "sniper status";
 
     public Main() throws Exception {
         startUserInterface();
@@ -86,8 +85,8 @@ public class Main {
         }
 
         @Override
-        public void sniperBidding(SniperState sniperState) {
-            showStatus(STATUS_BIDDING);
+        public void sniperBidding(SniperState state) {
+            SwingUtilities.invokeLater(() -> ui.sniperStatusChanged(state, STATUS_BIDDING));
         }
 
         @Override
