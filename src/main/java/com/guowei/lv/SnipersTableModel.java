@@ -6,8 +6,10 @@ import static com.guowei.lv.MainWindow.STATUS_JOINING;
 
 public class SnipersTableModel extends AbstractTableModel {
 
-    private final static SniperState STARTING_UP = new SniperState("", 0, 0);
-    private SniperState sniperState = STARTING_UP;
+    private static String[] STATUS_TEXT = {MainWindow.STATUS_JOINING, MainWindow.STATUS_BIDDING};
+
+    private final static SniperSnapshot STARTING_UP = new SniperSnapshot("", 0, 0, SniperState.JOINGING);
+    private SniperSnapshot sniperSnapshot = STARTING_UP;
 
     public enum Column {
         ITEM_IDENTIFIER, LAST_PRICE, LAST_BID, SNIPER_STATUS;
@@ -33,11 +35,11 @@ public class SnipersTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch (Column.at(columnIndex)) {
             case ITEM_IDENTIFIER:
-                return sniperState.itemId;
+                return sniperSnapshot.itemId;
             case LAST_BID:
-                return sniperState.lastBid;
+                return sniperSnapshot.lastBid;
             case LAST_PRICE:
-                return sniperState.lastPrice;
+                return sniperSnapshot.lastPrice;
             case SNIPER_STATUS:
                 return statusText;
             default:
@@ -50,9 +52,9 @@ public class SnipersTableModel extends AbstractTableModel {
         fireTableRowsUpdated(0, 0);
     }
 
-    public void sniperStatusChanged(SniperState newSniperState, String newStatusText) {
-        sniperState = newSniperState;
-        statusText = newStatusText;
+    public void sniperStateChanged(SniperSnapshot newSniperSnapshot) {
+        sniperSnapshot = newSniperSnapshot;
+        statusText = STATUS_TEXT[newSniperSnapshot.sniperState.ordinal()];
         fireTableRowsUpdated(0, 0);
 
     }

@@ -1,7 +1,6 @@
 package com.guowei.lv;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 
 public class MainWindow extends JFrame {
@@ -40,7 +39,7 @@ public class MainWindow extends JFrame {
         snipers.setStatusText(statusText);
     }
 
-    public void sniperStatusChanged(SniperState state, String statusText) {
-        snipers.sniperStatusChanged(state, statusText);
+    public void sniperStatusChanged(SniperSnapshot state) {
+        snipers.sniperStateChanged(state);
     }
 }
