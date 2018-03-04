@@ -8,8 +8,6 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import static com.guowei.lv.MainWindow.*;
-
 public class Main {
     private static final int ARG_HOSTNAME = 0;
     private static final int ARG_USERNAME = 1;
@@ -80,18 +78,8 @@ public class Main {
     private class SniperStateDisplayer implements SniperListener {
 
         @Override
-        public void sniperLost() {
-            showStatus(STATUS_LOST);
-        }
-
-        @Override
         public void sniperStateChanged(SniperSnapshot state) {
             SwingUtilities.invokeLater(() -> ui.sniperStatusChanged(state));
-        }
-
-        @Override
-        public void sniperWon() {
-            showStatus(STATUS_WON);
         }
 
         private void showStatus(final String status) {

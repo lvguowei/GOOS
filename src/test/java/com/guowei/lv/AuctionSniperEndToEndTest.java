@@ -51,8 +51,6 @@ public class AuctionSniperEndToEndTest {
 
         auction.announceClosed();
         application.showSniperHasWonAuction(1098); // last price
-
-
     }
 
     @After
