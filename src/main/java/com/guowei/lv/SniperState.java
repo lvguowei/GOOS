@@ -1,7 +1,7 @@
 package com.guowei.lv;
 
 public enum  SniperState {
-    JOINGING,
+    JOINING,
     BIDDING,
     WINNING,
     LOST,

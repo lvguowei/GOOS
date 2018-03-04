@@ -30,4 +30,16 @@ public class SniperSnapshot {
     public int hashCode() {
         return Objects.hash(itemId, lastPrice, lastBid, sniperState);
     }
+
+    public static SniperSnapshot joining(String itemId) {
+        return new SniperSnapshot(itemId, 0, 0, SniperState.JOINING);
+    }
+
+    public SniperSnapshot winning(int newLastPrice) {
+        return new SniperSnapshot(itemId, newLastPrice, lastBid, SniperState.WINNING);
+    }
+
+    public SniperSnapshot bidding(int newLastPrice, int newLastBid) {
+        return new SniperSnapshot(itemId, newLastPrice, newLastBid, SniperState.BIDDING);
+    }
 }

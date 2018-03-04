@@ -2,6 +2,8 @@ package com.guowei.lv;
 
 public class AuctionSniper implements AuctionEventListener {
 
+    private SniperSnapshot snapshot;
+
     private SniperListener sniperListener;
 
     private Auction auction;
@@ -14,6 +16,7 @@ public class AuctionSniper implements AuctionEventListener {
         this.itemId = itemId;
         this.sniperListener = listener;
         this.auction = auction;
+        this.snapshot = SniperSnapshot.joining(itemId);
     }
 
     @Override
@@ -30,11 +33,12 @@ public class AuctionSniper implements AuctionEventListener {
         isWinning = priceSource == PriceSource.FromSniper;
 
         if (isWinning) {
-            sniperListener.sniperWinning();
+            snapshot = snapshot.winning(price);
         } else {
             int bid = price + increment;
             auction.bid(bid);
-            sniperListener.sniperStateChanged(new SniperSnapshot(itemId, price, bid, SniperState.BIDDING));
+            snapshot = snapshot.bidding(price, bid);
         }
+        sniperListener.sniperStateChanged(snapshot);
     }
 }

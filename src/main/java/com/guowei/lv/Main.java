@@ -90,11 +90,6 @@ public class Main {
         }
 
         @Override
-        public void sniperWinning() {
-            showStatus(STATUS_WINNING);
-        }
-
-        @Override
         public void sniperWon() {
             showStatus(STATUS_WON);
         }
