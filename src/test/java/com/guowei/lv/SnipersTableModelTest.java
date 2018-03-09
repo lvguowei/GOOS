@@ -2,6 +2,8 @@ package com.guowei.lv;
 
 import com.guowei.lv.SnipersTableModel.Column;
 import org.hamcrest.Matcher;
+
+import static com.guowei.lv.SnipersTableModel.textFor;
 import static org.hamcrest.beans.SamePropertyValuesAs.samePropertyValuesAs;
 
 import org.jmock.Expectations;
@@ -45,7 +47,7 @@ public class SnipersTableModelTest {
         assertColumnEquals(Column.ITEM_IDENTIFIER, "item id");
         assertColumnEquals(Column.LAST_PRICE, 555);
         assertColumnEquals(Column.LAST_BID, 666);
-        assertColumnEquals(Column.SNIPER_STATUS, MainWindow.STATUS_BIDDING);
+        assertColumnEquals(Column.SNIPER_STATE, textFor(SniperState.BIDDING));
     }
 
     private void assertColumnEquals(Column column, Object expected) {

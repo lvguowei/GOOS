@@ -1,6 +1,7 @@
 package com.guowei.lv;
 
 import static com.guowei.lv.FakeAuctionServer.XMPP_HOSTNAME;
+import static com.guowei.lv.SnipersTableModel.textFor;
 
 public class ApplicationRunner {
 
@@ -28,15 +29,15 @@ public class ApplicationRunner {
         thread.setDaemon(true);
         thread.start();
         driver = new AuctionSniperDriver(1000);
-        driver.showsSniperStatus("", 0, 0, MainWindow.STATUS_JOINING);
+        driver.showsSniperStatus("", 0, 0, textFor(SniperState.JOINING));
     }
 
     public void showSniperHasLostAuction(int lastPrice, int lastBid) {
-        driver.showsSniperStatus(itemId, lastPrice, lastBid, MainWindow.STATUS_LOST);
+        driver.showsSniperStatus(itemId, lastPrice, lastBid, textFor(SniperState.LOST));
     }
 
     public void showSniperHasWonAuction(int lastPrice) {
-        driver.showsSniperStatus(itemId, lastPrice, lastPrice, MainWindow.STATUS_WON);
+        driver.showsSniperStatus(itemId, lastPrice, lastPrice, textFor(SniperState.WON));
     }
 
     public void stop() {
@@ -46,10 +47,10 @@ public class ApplicationRunner {
     }
 
     public void hasShownSniperIsBidding(int lastPrice, int lastBid) {
-        driver.showsSniperStatus(itemId, lastPrice, lastBid, MainWindow.STATUS_BIDDING);
+        driver.showsSniperStatus(itemId, lastPrice, lastBid, textFor(SniperState.BIDDING));
     }
 
     public void hasShownSniperIsWinning(int winningBid) {
-        driver.showsSniperStatus(itemId, winningBid, winningBid, MainWindow.STATUS_WINNING);
+        driver.showsSniperStatus(itemId, winningBid, winningBid, textFor(SniperState.WINNING));
     }
 }

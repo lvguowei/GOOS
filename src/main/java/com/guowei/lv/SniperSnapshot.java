@@ -6,13 +6,13 @@ public class SniperSnapshot {
     public final String itemId;
     public final int lastPrice;
     public final int lastBid;
-    public final SniperState sniperState;
+    public final SniperState state;
 
-    public SniperSnapshot(String itemId, int lastPrice, int lastBid, SniperState sniperState) {
+    public SniperSnapshot(String itemId, int lastPrice, int lastBid, SniperState state) {
         this.itemId = itemId;
         this.lastPrice = lastPrice;
         this.lastBid = lastBid;
-        this.sniperState = sniperState;
+        this.state = state;
     }
 
     @Override
@@ -23,12 +23,12 @@ public class SniperSnapshot {
         return lastPrice == that.lastPrice &&
                 lastBid == that.lastBid &&
                 Objects.equals(itemId, that.itemId) &&
-                sniperState == that.sniperState;
+                state == that.state;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(itemId, lastPrice, lastBid, sniperState);
+        return Objects.hash(itemId, lastPrice, lastBid, state);
     }
 
     public static SniperSnapshot joining(String itemId) {
@@ -44,6 +44,6 @@ public class SniperSnapshot {
     }
 
     public SniperSnapshot closed() {
-        return new SniperSnapshot(itemId, lastPrice, lastBid, sniperState.whenAuctionClosed());
+        return new SniperSnapshot(itemId, lastPrice, lastBid, state.whenAuctionClosed());
     }
 }
