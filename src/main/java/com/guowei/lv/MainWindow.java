@@ -3,13 +3,16 @@ package com.guowei.lv;
 import javax.swing.*;
 import java.awt.*;
 
-public class MainWindow extends JFrame {
+class MainWindow extends JFrame {
 
     private static final String SNIPERS_TABLE_NAME = "Snipers Table";
-    private final SnipersTableModel snipers = new SnipersTableModel();
 
-    MainWindow() {
+
+    private final SnipersTableModel snipers;
+
+    MainWindow(SnipersTableModel snipers) {
         super("Auction Sniper");
+        this.snipers = snipers;
         setName(Main.MAIN_WINDOW_NAME);
         fillContentPanel(makeSnipersTable());
         pack();
@@ -27,9 +30,5 @@ public class MainWindow extends JFrame {
         final JTable snipersTable = new JTable(snipers);
         snipersTable.setName(SNIPERS_TABLE_NAME);
         return snipersTable;
-    }
-
-    public void sniperStatusChanged(SniperSnapshot state) {
-        snipers.sniperStateChanged(state);
     }
 }

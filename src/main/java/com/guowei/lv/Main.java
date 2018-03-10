@@ -23,6 +23,8 @@ public class Main {
 
     private MainWindow ui;
 
+    private final SnipersTableModel snipers = new SnipersTableModel();
+
     private Chat notToBeGCd;
 
 
@@ -34,7 +36,7 @@ public class Main {
     }
 
     private void startUserInterface() throws Exception{
-        SwingUtilities.invokeAndWait(() -> ui = new MainWindow());
+        SwingUtilities.invokeAndWait(() -> ui = new MainWindow(snipers));
     }
 
     public static void main(String... args) throws Exception {
@@ -56,7 +58,7 @@ public class Main {
         notToBeGCd = chat;
 
         Auction auction = new XMPPAuction(chat);
-        chat.addMessageListener(new AuctionMessageTranslator(connection.getUser(), new AuctionSniper(itemId, auction, new SniperStateDisplayer())));
+        chat.addMessageListener(new AuctionMessageTranslator(connection.getUser(), new AuctionSniper(itemId, auction, new SwingThreadSniperListener(snipers))));
         auction.join();
     }
 
@@ -75,11 +77,17 @@ public class Main {
     }
 
 
-    private class SniperStateDisplayer implements SniperListener {
+    private class SwingThreadSniperListener implements SniperListener {
+
+        SniperListener sniperListener;
+
+        SwingThreadSniperListener(SniperListener listener) {
+            this.sniperListener = listener;
+        }
 
         @Override
         public void sniperStateChanged(SniperSnapshot state) {
-            SwingUtilities.invokeLater(() -> ui.sniperStatusChanged(state));
+            SwingUtilities.invokeLater(() -> sniperListener.sniperStateChanged(state));
         }
     }
 }
