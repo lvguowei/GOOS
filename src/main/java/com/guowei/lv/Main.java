@@ -27,8 +27,6 @@ public class Main {
 
     private Chat notToBeGCd;
 
-
-
     public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
 
     public Main() throws Exception {
