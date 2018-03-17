@@ -29,7 +29,7 @@ public class ApplicationRunner {
         driver.hasTitle(MainWindow.APPLICATION_TITLE);
         driver.hasColumnTitles();
         for(FakeAuctionServer auction : auctions) {
-            driver.showsSniperStatus("", 0, 0, textFor(SniperState.JOINING));
+            driver.showsSniperStatus(auction.getItemId(), 0, 0, textFor(SniperState.JOINING));
         }
     }
 

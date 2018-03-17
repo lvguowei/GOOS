@@ -1,14 +1,22 @@
 package com.guowei.lv;
 
+import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class SnipersTableModel extends AbstractTableModel implements SniperListener {
 
     private static String[] STATUS_TEXT = {"Joining", "Bidding", "Winning", "Lost", "Won"};
 
-    private final static SniperSnapshot STARTING_UP = new SniperSnapshot("", 0, 0, SniperState.JOINING);
-    private SniperSnapshot snapshot = STARTING_UP;
+    private List<SniperSnapshot> snapshots = new ArrayList<>();
+
+    public void addSniper(SniperSnapshot sniperSnapshot) {
+        int row = snapshots.size();
+        snapshots.add(sniperSnapshot);
+        fireTableRowsInserted(row, row);
+    }
 
     public enum Column {
         ITEM_IDENTIFIER("Item") {
@@ -53,7 +61,7 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
 
     @Override
     public int getRowCount() {
-        return 1;
+        return snapshots.size();
     }
 
     @Override
@@ -63,7 +71,7 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        return Column.at(columnIndex).valueIn(snapshot);
+        return Column.at(columnIndex).valueIn(snapshots.get(rowIndex));
     }
 
     public static String textFor(SniperState state) {
@@ -71,8 +79,15 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
     }
 
     @Override
-    public void sniperStateChanged(SniperSnapshot newSniperSnapshot) {
-        snapshot = newSniperSnapshot;
-        fireTableRowsUpdated(0, 0);
+    public void sniperStateChanged(SniperSnapshot newSnapshot) {
+        for (int i = 0; i < snapshots.size(); i++) {
+            if (newSnapshot.isForSameItemAs(snapshots.get(i))) {
+                snapshots.set(i, newSnapshot);
+                fireTableRowsUpdated(i, i);
+                return;
+            }
+        }
+        throw new RuntimeException("No existing Sniper state for " + newSnapshot.itemId);
     }
+
 }
