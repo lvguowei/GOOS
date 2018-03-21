@@ -12,25 +12,35 @@ class MainWindow extends JFrame {
     public static final String JOIN_BUTTON_NAME = "join button";
 
 
-    private final SnipersTableModel snipers;
-
     MainWindow(SnipersTableModel snipers) {
         super(APPLICATION_TITLE);
-        this.snipers = snipers;
         setName(Main.MAIN_WINDOW_NAME);
-        fillContentPanel(makeSnipersTable());
+        fillContentPanel(makeSnipersTable(snipers), makeControls());
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
 
-    private void fillContentPanel(JTable snipersTable) {
+    private JPanel makeControls() {
+        JPanel controls = new JPanel(new FlowLayout());
+        final JTextField itemIdField = new JTextField();
+        itemIdField.setName(NEW_ITEM_ID_NAME);
+        controls.add(itemIdField);
+
+        JButton joinAuctionButton = new JButton("Join Auction");
+        joinAuctionButton.setName(JOIN_BUTTON_NAME);
+        controls.add(joinAuctionButton);
+        return controls;
+    }
+
+    private void fillContentPanel(JTable snipersTable, JPanel jPanel) {
         final Container contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
+        contentPane.add(jPanel, BorderLayout.NORTH);
         contentPane.add(new JScrollPane(snipersTable), BorderLayout.CENTER);
     }
 
-    private JTable makeSnipersTable() {
+    private JTable makeSnipersTable(SnipersTableModel snipers) {
         final JTable snipersTable = new JTable(snipers);
         snipersTable.setName(SNIPERS_TABLE_NAME);
         return snipersTable;
