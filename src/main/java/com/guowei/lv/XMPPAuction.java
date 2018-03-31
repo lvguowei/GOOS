@@ -1,17 +1,23 @@
 package com.guowei.lv;
 
 import org.jivesoftware.smack.Chat;
+import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
-
-import static com.guowei.lv.Main.BID_COMMAND_FORMAT;
-import static com.guowei.lv.Main.JOIN_COMMAND_FORMAT;
 
 public class XMPPAuction implements Auction {
 
+
+    private final Announcer<AuctionEventListener> auctionEventListeners = Announcer.to(AuctionEventListener.class);
     private final Chat chat;
 
-    public XMPPAuction(Chat chat) {
-        this.chat = chat;
+    public XMPPAuction(XMPPConnection connection, String itemId) {
+        chat = connection.getChatManager().createChat(
+                auctionId(itemId, connection),
+                new AuctionMessageTranslator(connection.getUser(), auctionEventListeners.announce()));
+    }
+
+    private static String auctionId(String itemId, XMPPConnection connection) {
+        return String.format(AUCTION_ID_FORMAT, itemId, connection.getServiceName());
     }
 
     @Override
@@ -22,6 +28,11 @@ public class XMPPAuction implements Auction {
     @Override
     public void join() {
         sendMessage(JOIN_COMMAND_FORMAT);
+    }
+
+    @Override
+    public void addAuctionEventListener(AuctionSniper auctionSniper) {
+        auctionEventListeners.addListener(auctionSniper);
     }
 
     private void sendMessage(final String message) {

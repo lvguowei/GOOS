@@ -38,11 +38,11 @@ public class FakeAuctionServer {
     }
 
     public void hasReceivedJoinRequestFromSniper(String sniperId) throws InterruptedException {
-        receivesAMessageMatching(sniperId, equalTo(Main.JOIN_COMMAND_FORMAT));
+        receivesAMessageMatching(sniperId, equalTo(Auction.JOIN_COMMAND_FORMAT));
     }
 
     public void hasReceivedBid(int bid, String sniperId) throws InterruptedException {
-        receivesAMessageMatching(sniperId, equalTo(format(Main.BID_COMMAND_FORMAT, bid)));
+        receivesAMessageMatching(sniperId, equalTo(format(Auction.BID_COMMAND_FORMAT, bid)));
     }
 
     public void announceClosed() throws XMPPException {

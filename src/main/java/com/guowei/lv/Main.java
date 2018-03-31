@@ -11,24 +11,22 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.guowei.lv.Auction.AUCTION_RESOURCE;
+
 public class Main {
     private static final int ARG_HOSTNAME = 0;
     private static final int ARG_USERNAME = 1;
     private static final int ARG_PASSWORD = 2;
     private static final int ARG_ITEM_ID = 3;
 
-    public static final String AUCTION_RESOURCE = "Auction";
-    public static final String ITEM_ID_AS_LOGIN = "auction-%s";
-    public static final String AUCTION_ID_FORMAT = ITEM_ID_AS_LOGIN + "@%s/" + AUCTION_RESOURCE;
-    public static final String JOIN_COMMAND_FORMAT = "SOLVersion: 1.1; Command: JOIN;";
-    public static final String BID_COMMAND_FORMAT = "SOLVersion: 1.1; Command: BID; Price: %d;";
+
 
 
     private MainWindow ui;
 
     private final SnipersTableModel snipers = new SnipersTableModel();
 
-    private List<Chat> notToBeGCd = new ArrayList<>();
+    private List<Auction> notToBeGCd = new ArrayList<>();
 
     public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
 
@@ -50,13 +48,9 @@ public class Main {
     private void addUserRequestListenerFor(XMPPConnection connection) {
         ui.addUserRequestListener(itemId -> {
             snipers.addSniper(SniperSnapshot.joining(itemId));
-
-            Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection), null);
-            Announcer<AuctionEventListener> auctionEventListeners = Announcer.to(AuctionEventListener.class);
-            chat.addMessageListener(new AuctionMessageTranslator(connection.getUser(), auctionEventListeners.announce()));
-            notToBeGCd.add(chat);
-            Auction auction = new XMPPAuction(chat);
-            auctionEventListeners.addListener(new AuctionSniper(itemId, auction, new SwingThreadSniperListener(snipers)));
+            Auction auction = new XMPPAuction(connection, itemId);
+            notToBeGCd.add(auction);
+            auction.addAuctionEventListener(new AuctionSniper(itemId, auction, new SwingThreadSniperListener(snipers)));
             auction.join();
         });
     }
@@ -77,11 +71,6 @@ public class Main {
             }
         });
     }
-
-    private static String auctionId(String itemId, XMPPConnection connection) {
-        return String.format(AUCTION_ID_FORMAT, itemId, connection.getServiceName());
-    }
-
 
     private class SwingThreadSniperListener implements SniperListener {
 
