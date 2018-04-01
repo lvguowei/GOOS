@@ -1,5 +1,6 @@
-package com.guowei.lv;
+package com.guowei.lv.auctionsniper.xmpp;
 
+import com.guowei.lv.AuctionEventListener;
 import com.guowei.lv.AuctionEventListener.PriceSource;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.MessageListener;
@@ -12,7 +13,7 @@ public class AuctionMessageTranslator implements MessageListener {
     private final String sniperId;
     private AuctionEventListener listener;
 
-    AuctionMessageTranslator(String sniperId, AuctionEventListener listener) {
+    public AuctionMessageTranslator(String sniperId, AuctionEventListener listener) {
         this.sniperId = sniperId;
         this.listener = listener;
     }

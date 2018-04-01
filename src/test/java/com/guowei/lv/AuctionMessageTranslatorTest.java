@@ -1,5 +1,6 @@
 package com.guowei.lv;
 
+import com.guowei.lv.auctionsniper.xmpp.AuctionMessageTranslator;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.packet.Message;
 import org.jmock.Expectations;

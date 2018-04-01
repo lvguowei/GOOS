@@ -1,5 +1,6 @@
 package com.guowei.lv;
 
+import com.guowei.lv.auctionsniper.xmpp.XMPPAuction;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.junit.After;

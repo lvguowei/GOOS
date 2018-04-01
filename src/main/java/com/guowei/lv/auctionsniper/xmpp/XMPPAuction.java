@@ -1,5 +1,8 @@
-package com.guowei.lv;
+package com.guowei.lv.auctionsniper.xmpp;
 
+import com.guowei.lv.Announcer;
+import com.guowei.lv.Auction;
+import com.guowei.lv.AuctionEventListener;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
