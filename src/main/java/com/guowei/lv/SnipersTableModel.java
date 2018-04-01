@@ -6,15 +6,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class SnipersTableModel extends AbstractTableModel implements SniperListener {
+public class SnipersTableModel extends AbstractTableModel implements SniperListener, SniperCollector {
 
     private static String[] STATUS_TEXT = {"Joining", "Bidding", "Winning", "Lost", "Won"};
 
+    private final ArrayList<AuctionSniper> notToBeGCd = new ArrayList<>();
+
     private List<SniperSnapshot> snapshots = new ArrayList<>();
 
-    public void addSniper(SniperSnapshot sniperSnapshot) {
-        int row = snapshots.size();
-        snapshots.add(sniperSnapshot);
+    @Override
+    public void addSniper(AuctionSniper sniper) {
+        notToBeGCd.add(sniper);
+        addSniperSnapshot(sniper.getSnapshot());
+        sniper.addSniperListener(new SwingThreadSniperListener(this));
+    }
+
+    private void addSniperSnapshot(SniperSnapshot snapshot) {
+        snapshots.add(snapshot);
+        int row = snapshots.size() - 1;
         fireTableRowsInserted(row, row);
     }
 
@@ -88,6 +97,20 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
             }
         }
         throw new RuntimeException("No existing Sniper state for " + newSnapshot.itemId);
+    }
+
+    private class SwingThreadSniperListener implements SniperListener {
+
+        SniperListener sniperListener;
+
+        SwingThreadSniperListener(SniperListener listener) {
+            this.sniperListener = listener;
+        }
+
+        @Override
+        public void sniperStateChanged(SniperSnapshot state) {
+            SwingUtilities.invokeLater(() -> sniperListener.sniperStateChanged(state));
+        }
     }
 
 }

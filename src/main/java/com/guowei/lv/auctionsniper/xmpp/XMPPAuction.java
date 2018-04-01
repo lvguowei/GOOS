@@ -7,8 +7,12 @@ import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 
+import static com.guowei.lv.XMPPAuctionHouse.AUCTION_ID_FORMAT;
+
 public class XMPPAuction implements Auction {
 
+    public static String JOIN_COMMAND_FORMAT = "SOLVersion: 1.1; Command: JOIN;";
+    public static String BID_COMMAND_FORMAT = "SOLVersion: 1.1; Command: BID; Price: %d;";
 
     private final Announcer<AuctionEventListener> auctionEventListeners = Announcer.to(AuctionEventListener.class);
     private final Chat chat;
