@@ -6,25 +6,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class SnipersTableModel extends AbstractTableModel implements SniperListener, SniperCollector {
+public class SnipersTableModel extends AbstractTableModel implements SniperListener, SniperPortfolio.PortfolioListener {
 
     private static String[] STATUS_TEXT = {"Joining", "Bidding", "Winning", "Lost", "Won"};
 
-    private final ArrayList<AuctionSniper> notToBeGCd = new ArrayList<>();
-
     private List<SniperSnapshot> snapshots = new ArrayList<>();
-
-    @Override
-    public void addSniper(AuctionSniper sniper) {
-        notToBeGCd.add(sniper);
-        addSniperSnapshot(sniper.getSnapshot());
-        sniper.addSniperListener(new SwingThreadSniperListener(this));
-    }
 
     private void addSniperSnapshot(SniperSnapshot snapshot) {
         snapshots.add(snapshot);
         int row = snapshots.size() - 1;
         fireTableRowsInserted(row, row);
+    }
+
+    @Override
+    public void sniperAdded(AuctionSniper sniper) {
+        addSniperSnapshot(sniper.getSnapshot());
+        sniper.addSniperListener(new SwingThreadSniperListener(this));
     }
 
     public enum Column {

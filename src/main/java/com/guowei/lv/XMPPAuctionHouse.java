@@ -11,7 +11,7 @@ public class XMPPAuctionHouse implements AuctionHouse {
 
     private final XMPPConnection connection;
 
-    public XMPPAuctionHouse(XMPPConnection connection) {
+    private XMPPAuctionHouse(XMPPConnection connection) {
         this.connection = connection;
     }
 

@@ -5,22 +5,21 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class Main {
+    public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
     private static final int ARG_HOSTNAME = 0;
     private static final int ARG_USERNAME = 1;
     private static final int ARG_PASSWORD = 2;
 
     private MainWindow ui;
 
-    private final SnipersTableModel snipers = new SnipersTableModel();
+    private final SniperPortfolio sniperPortfolio = new SniperPortfolio();
 
-    public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
-
-    public Main() throws Exception {
+    private Main() throws Exception {
         startUserInterface();
     }
 
     private void startUserInterface() throws Exception {
-        SwingUtilities.invokeAndWait(() -> ui = new MainWindow(snipers));
+        SwingUtilities.invokeAndWait(() -> ui = new MainWindow(sniperPortfolio));
     }
 
     public static void main(String... args) throws Exception {
@@ -31,7 +30,7 @@ public class Main {
     }
 
     private void addUserRequestListenerFor(final AuctionHouse auctionHouse) {
-        ui.addUserRequestListener(new SniperLauncher(auctionHouse, snipers));
+        ui.addUserRequestListener(new SniperLauncher(auctionHouse, sniperPortfolio));
     }
 
     private void disconnectWhenUICloses(final XMPPAuctionHouse auctionHouse) {
@@ -43,6 +42,4 @@ public class Main {
             }
         });
     }
-
-
 }

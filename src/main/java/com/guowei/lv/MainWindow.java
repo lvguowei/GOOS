@@ -18,10 +18,10 @@ class MainWindow extends JFrame {
     private final Announcer<UserRequestListener> userRequests = Announcer.to(UserRequestListener.class);
 
 
-    MainWindow(SnipersTableModel snipers) {
+    MainWindow(SniperPortfolio sniperPortfolio) {
         super(APPLICATION_TITLE);
         setName(Main.MAIN_WINDOW_NAME);
-        fillContentPanel(makeSnipersTable(snipers), makeControls());
+        fillContentPanel(makeSnipersTable(sniperPortfolio), makeControls());
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -49,8 +49,10 @@ class MainWindow extends JFrame {
         contentPane.add(new JScrollPane(snipersTable), BorderLayout.CENTER);
     }
 
-    private JTable makeSnipersTable(SnipersTableModel snipers) {
-        final JTable snipersTable = new JTable(snipers);
+    private JTable makeSnipersTable(SniperPortfolio portfolio) {
+        SnipersTableModel tableModel = new SnipersTableModel();
+        portfolio.addPortfolioListener(tableModel);
+        final JTable snipersTable = new JTable(tableModel);
         snipersTable.setName(SNIPERS_TABLE_NAME);
         return snipersTable;
     }
