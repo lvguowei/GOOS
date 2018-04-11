@@ -1,12 +1,14 @@
 package com.guowei.lv;
 
+import com.guowei.lv.SniperPortfolio.PortfolioListener;
+
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class SnipersTableModel extends AbstractTableModel implements SniperListener, SniperPortfolio.PortfolioListener {
+public class SnipersTableModel extends AbstractTableModel implements SniperListener, PortfolioListener {
 
     private static String[] STATUS_TEXT = {"Joining", "Bidding", "Winning", "Lost", "Won"};
 

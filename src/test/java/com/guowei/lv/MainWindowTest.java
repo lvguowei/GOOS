@@ -16,7 +16,7 @@ public class MainWindowTest {
 
         mainWindow.addUserRequestListener(itemId -> buttonProbe.setReceivedValue(itemId));
 
-        driver.startBiddingFor("item-id");
+        driver.startBiddingWithStopPrice("item-id", Integer.MAX_VALUE);
         driver.check(buttonProbe);
     }
 }

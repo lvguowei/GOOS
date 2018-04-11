@@ -3,12 +3,10 @@ package com.guowei.lv;
 public class AuctionSniper implements AuctionEventListener {
 
     private SniperSnapshot snapshot;
-
-
     private final Announcer<SniperListener> listeners = Announcer.to(SniperListener.class);
     private Auction auction;
 
-    public AuctionSniper(String itemId, Auction auction) {
+    AuctionSniper(String itemId, Auction auction) {
         this.auction = auction;
         this.snapshot = SniperSnapshot.joining(itemId);
     }

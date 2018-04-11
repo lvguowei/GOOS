@@ -1,11 +1,7 @@
 package com.guowei.lv;
 
-import org.jivesoftware.smackx.workgroup.agent.UserRequest;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 class MainWindow extends JFrame {
 
@@ -14,6 +10,7 @@ class MainWindow extends JFrame {
     public static final String APPLICATION_TITLE = "Auction Sniper";
     public static final String NEW_ITEM_ID_NAME = "new item id";
     public static final String JOIN_BUTTON_NAME = "join button";
+    public static final String NEW_ITEM_STOP_PRICE_NAME = "stop price";
 
     private final Announcer<UserRequestListener> userRequests = Announcer.to(UserRequestListener.class);
 

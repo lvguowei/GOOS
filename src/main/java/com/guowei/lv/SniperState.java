@@ -1,6 +1,6 @@
 package com.guowei.lv;
 
-public enum  SniperState {
+public enum SniperState {
     JOINING {
         @Override
         public SniperState whenAuctionClosed() {
@@ -17,6 +17,12 @@ public enum  SniperState {
         @Override
         public SniperState whenAuctionClosed() {
             return WON;
+        }
+    },
+    LOSING {
+        @Override
+        public SniperState whenAuctionClosed() {
+            return LOST;
         }
     },
     LOST,
