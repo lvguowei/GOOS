@@ -2,6 +2,7 @@ package com.guowei.lv;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.NumberFormat;
 
 class MainWindow extends JFrame {
 
@@ -26,10 +27,10 @@ class MainWindow extends JFrame {
 
     private JPanel makeControls() {
         JPanel controls = new JPanel(new FlowLayout());
-        final JTextField itemIdField = new JTextField();
-        itemIdField.setColumns(25);
-        itemIdField.setName(NEW_ITEM_ID_NAME);
+        final JTextField itemIdField = itemIdField();
+        final JFormattedTextField stopPriceField = stopPriceField();
         controls.add(itemIdField);
+        controls.add(stopPriceField);
 
         JButton joinAuctionButton = new JButton("Join Auction");
         joinAuctionButton.setName(JOIN_BUTTON_NAME);
@@ -38,6 +39,21 @@ class MainWindow extends JFrame {
 
         return controls;
     }
+
+    private JFormattedTextField stopPriceField() {
+        JFormattedTextField stopPriceField = new JFormattedTextField(NumberFormat.getIntegerInstance());
+        stopPriceField.setColumns(7);
+        stopPriceField.setName(NEW_ITEM_STOP_PRICE_NAME);
+        return stopPriceField;
+    }
+
+    private JTextField itemIdField() {
+        JTextField itemIdField = new JTextField();
+        itemIdField.setColumns(10);
+        itemIdField.setName(NEW_ITEM_ID_NAME);
+        return itemIdField;
+    }
+
 
     private void fillContentPanel(JTable snipersTable, JPanel controls) {
         final Container contentPane = getContentPane();

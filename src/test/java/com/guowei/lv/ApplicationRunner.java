@@ -63,7 +63,6 @@ public class ApplicationRunner {
     public void startBiddingWithStopPrice(FakeAuctionServer auction, int stopPrice) {
         startSniper();
         openBiddingFor(auction, stopPrice);
-        driver.startBiddingWithStopPrice(auction.getItemId(), stopPrice);
     }
 
     private void openBiddingFor(FakeAuctionServer auction, int stopPrice) {
