@@ -32,7 +32,7 @@ public class AuctionSniperDriver extends JFrameDriver {
         headers.hasHeaders(matching(withLabelText("Item"), withLabelText("Last Price"), withLabelText("Last Bid"), withLabelText("State")));
     }
 
-    public void startBiddingWithStopPrice(String itemId, int stopPrice) {
+    public void startBiddingFor(String itemId, int stopPrice) {
         textField(NEW_ITEM_ID_NAME).replaceAllText(itemId);
         textField(NEW_ITEM_STOP_PRICE_NAME).replaceAllText(String.valueOf(stopPrice));
         bidButton().click();

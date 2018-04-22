@@ -1,7 +1,6 @@
 package com.guowei.lv;
 
 import static com.guowei.lv.FakeAuctionServer.XMPP_HOSTNAME;
-import static com.guowei.lv.SniperState.JOINING;
 import static com.guowei.lv.SnipersTableModel.textFor;
 
 public class ApplicationRunner {
@@ -67,7 +66,7 @@ public class ApplicationRunner {
 
     private void openBiddingFor(FakeAuctionServer auction, int stopPrice) {
         final String itemId = auction.getItemId();
-        driver.startBiddingWithStopPrice(itemId, stopPrice);
+        driver.startBiddingFor(itemId, stopPrice);
         driver.showsSniperStatus(itemId, 0, 0, textFor(SniperState.JOINING));
     }
 

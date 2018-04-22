@@ -15,6 +15,10 @@ class MainWindow extends JFrame {
 
     private final Announcer<UserRequestListener> userRequests = Announcer.to(UserRequestListener.class);
 
+    private JTextField itemIdField;
+
+    private JFormattedTextField stopPriceField;
+
 
     MainWindow(SniperPortfolio sniperPortfolio) {
         super(APPLICATION_TITLE);
@@ -27,17 +31,25 @@ class MainWindow extends JFrame {
 
     private JPanel makeControls() {
         JPanel controls = new JPanel(new FlowLayout());
-        final JTextField itemIdField = itemIdField();
-        final JFormattedTextField stopPriceField = stopPriceField();
+        itemIdField = itemIdField();
+        stopPriceField = stopPriceField();
         controls.add(itemIdField);
         controls.add(stopPriceField);
 
         JButton joinAuctionButton = new JButton("Join Auction");
         joinAuctionButton.setName(JOIN_BUTTON_NAME);
-        joinAuctionButton.addActionListener(e -> userRequests.announce().joinAuction(itemIdField.getText()));
+        joinAuctionButton.addActionListener(e -> userRequests.announce().joinAuction(new Item(itemId(), stopPrice())));
         controls.add(joinAuctionButton);
 
         return controls;
+    }
+
+    private int stopPrice() {
+        return ((Number) stopPriceField.getValue()).intValue();
+    }
+
+    private String itemId() {
+        return itemIdField.getText();
     }
 
     private JFormattedTextField stopPriceField() {

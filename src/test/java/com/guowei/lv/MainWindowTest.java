@@ -12,11 +12,11 @@ public class MainWindowTest {
 
     @Test
     public void makesUserRequestWhenJoinButtonClicked() {
-        final ValueMatcherProbe<String> buttonProbe = new ValueMatcherProbe<>(equalTo("item-id"), "join request");
+        final ValueMatcherProbe<Item> itemProbe = new ValueMatcherProbe<>(equalTo(new Item("item-id", 789)), "item request");
 
-        mainWindow.addUserRequestListener(itemId -> buttonProbe.setReceivedValue(itemId));
+        mainWindow.addUserRequestListener(itemProbe::setReceivedValue);
 
-        driver.startBiddingWithStopPrice("item-id", Integer.MAX_VALUE);
-        driver.check(buttonProbe);
+        driver.startBiddingFor("item-id", 789);
+        driver.check(itemProbe);
     }
 }
