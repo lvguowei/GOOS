@@ -1,5 +1,6 @@
 package com.guowei.lv;
 
+import com.guowei.lv.AuctionEventListener.PriceSource;
 import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;
 import org.jmock.Expectations;
@@ -18,11 +19,12 @@ import static org.hamcrest.CoreMatchers.equalTo;
 @RunWith(JMock.class)
 public class AuctionSniperTest {
     private static final String ITEM_ID = "test item id";
+    public static final Item ITEM = new Item(ITEM_ID, 1234);
 
     private final Mockery context = new Mockery();
     private final SniperListener sniperListener = context.mock(SniperListener.class);
     private final Auction auction = context.mock(Auction.class);
-    private final AuctionSniper sniper = new AuctionSniper(ITEM_ID, auction);
+    private final AuctionSniper sniper = new AuctionSniper(ITEM, auction);
     private final States sniperState = context.states("sniper");
 
     @Before
@@ -80,8 +82,8 @@ public class AuctionSniperTest {
             when(sniperState.is("bidding"));
         }});
 
-        sniper.currentPrice(123, 12, AuctionEventListener.PriceSource.FromOtherBidder);
-        sniper.currentPrice(135, 45, AuctionEventListener.PriceSource.FromSniper);
+        sniper.currentPrice(123, 12, PriceSource.FromOtherBidder);
+        sniper.currentPrice(135, 45, PriceSource.FromSniper);
     }
 
     @Test
@@ -97,6 +99,26 @@ public class AuctionSniperTest {
 
         sniper.currentPrice(123, 45, FromSniper);
         sniper.auctionClosed();
+    }
+
+    @Test
+    public void doesNotBidAndReportsLosingIfSubsequentPriceIsAboveStopPrice() {
+        allowingSniperBidding();
+        context.checking(new Expectations(){{
+            int bid = 123 + 45;
+            allowing(auction).bid(bid);
+            atLeast(1).of(sniperListener).sniperStateChanged(new SniperSnapshot(ITEM_ID, 2345, bid, SniperState.LOSING));
+            when(sniperState.is("bidding"));
+        }});
+        sniper.currentPrice(123, 45, PriceSource.FromOtherBidder);
+        sniper.currentPrice(2345, 25, PriceSource.FromOtherBidder);
+    }
+
+    private void allowingSniperBidding() {
+        context.checking(new Expectations() {{
+            allowing(sniperListener).sniperStateChanged(with(aSniperThatIs(SniperState.BIDDING)));
+            then(sniperState.is("bidding"));
+        }});
     }
 
     private Matcher<SniperSnapshot> aSniperThatIs(final SniperState state) {

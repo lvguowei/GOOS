@@ -27,7 +27,7 @@ public class SnipersTableModelTest {
     private final Mockery context = new Mockery();
     private TableModelListener listener = context.mock(TableModelListener.class);
     private final SnipersTableModel model = new SnipersTableModel();
-    private final AuctionSniper sniper = new AuctionSniper("item 0", null);
+    private final AuctionSniper sniper = new AuctionSniper(new Item("item 0", 1234), null);
 
     @Before
     public void attachModelListener() {
@@ -78,7 +78,7 @@ public class SnipersTableModelTest {
 
     @Test
     public void holdsSnipersInAdditionOrder() {
-        AuctionSniper sniper2 = new AuctionSniper("item 1", null);
+        AuctionSniper sniper2 = new AuctionSniper(new Item("item 1", 1234), null);
         context.checking(new Expectations() {{
             ignoring(listener);
         }});
@@ -93,7 +93,7 @@ public class SnipersTableModelTest {
     @Test
     public void
     updatesCorrectRowForSniper() {
-        AuctionSniper sniper2 = new AuctionSniper("item 1", null);
+        AuctionSniper sniper2 = new AuctionSniper(new Item("item 1", 1234), null);
         context.checking(new Expectations() {
             {
                 allowing(listener).tableChanged(with(anyInsertionEvent()));

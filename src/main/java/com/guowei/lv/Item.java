@@ -25,4 +25,8 @@ public class Item {
 
         return Objects.hash(identifier, stopPrice);
     }
+
+    public boolean allowsBid(int bid) {
+        return bid <= stopPrice;
+    }
 }
