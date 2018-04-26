@@ -11,5 +11,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Gradle: org.igniterealtime.smack:smack:3.1.0" level="project" />
     <orderEntry type="library" name="Gradle: org.igniterealtime.smack:smackx:3.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.commons:commons-lang3:3.0" level="project" />
   </component>
 </module>

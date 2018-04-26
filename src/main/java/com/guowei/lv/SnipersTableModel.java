@@ -30,22 +30,22 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
         ITEM_IDENTIFIER("Item") {
             @Override
             public Object valueIn(SniperSnapshot snapshot) {
-                return snapshot.itemId;
+                return snapshot.getItemId();
             }
         }, LAST_PRICE("Last Price") {
             @Override
             public Object valueIn(SniperSnapshot snapshot) {
-                return snapshot.lastPrice;
+                return snapshot.getLastPrice();
             }
         }, LAST_BID("Last Bid") {
             @Override
             public Object valueIn(SniperSnapshot snapshot) {
-                return snapshot.lastBid;
+                return snapshot.getLastBid();
             }
         }, SNIPER_STATE("State") {
             @Override
             public Object valueIn(SniperSnapshot snapshot) {
-                return textFor(snapshot.state);
+                return textFor(snapshot.getState());
             }
         };
 
@@ -95,7 +95,7 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
                 return;
             }
         }
-        throw new RuntimeException("No existing Sniper state for " + newSnapshot.itemId);
+        throw new RuntimeException("No existing Sniper state for " + newSnapshot.getItemId());
     }
 
     private class SwingThreadSniperListener implements SniperListener {

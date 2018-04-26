@@ -12,6 +12,7 @@
     <orderEntry type="module" module-name="goos_main" />
     <orderEntry type="library" name="Gradle: org.igniterealtime.smack:smack:3.1.0" level="project" />
     <orderEntry type="library" name="Gradle: org.igniterealtime.smack:smackx:3.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.commons:commons-lang3:3.0" level="project" />
     <orderEntry type="library" name="Gradle: junit:junit:4.12" level="project" />
     <orderEntry type="library" name="Gradle: org.jmock:jmock-junit4:2.6.0" level="project" />
     <orderEntry type="library" name="Gradle: org.jmock:jmock-legacy:2.6.0" level="project" />

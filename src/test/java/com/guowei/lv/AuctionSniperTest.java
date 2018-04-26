@@ -15,11 +15,13 @@ import org.junit.runner.RunWith;
 import static com.guowei.lv.AuctionEventListener.PriceSource.FromOtherBidder;
 import static com.guowei.lv.AuctionEventListener.PriceSource.FromSniper;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.samePropertyValuesAs;
 
 @RunWith(JMock.class)
 public class AuctionSniperTest {
     private static final String ITEM_ID = "test item id";
-    public static final Item ITEM = new Item(ITEM_ID, 1234);
+    private static final Item ITEM = new Item(ITEM_ID, 1234);
 
     private final Mockery context = new Mockery();
     private final SniperListener sniperListener = context.mock(SniperListener.class);
@@ -33,12 +35,24 @@ public class AuctionSniperTest {
     }
 
     @Test
+    public void hasInitialStateOfJoining() {
+        assertThat(sniper.getSnapshot(), samePropertyValuesAs(SniperSnapshot.joining(ITEM_ID)));
+    }
+
+    @Test
     public void reportsLostWhenAuctionClosesImmediately() {
         context.checking(new Expectations() {{
             atLeast(1).of(sniperListener).sniperStateChanged(new SniperSnapshot(ITEM_ID, 0, 0, SniperState.LOST));
         }});
 
         sniper.auctionClosed();
+    }
+
+    @Test
+    public void doesNotBidAndReportsLosingIfFirstPriceIsAboveStopPrice() {
+        context.checking(new Expectations() {{
+
+        }});
     }
 
     @Test
@@ -127,7 +141,7 @@ public class AuctionSniperTest {
         ) {
             @Override
             protected SniperState featureValueOf(SniperSnapshot actual) {
-                return actual.state;
+                return actual.getState();
             }
         };
     }

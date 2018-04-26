@@ -1,12 +1,14 @@
 package com.guowei.lv;
 
-import java.util.Objects;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class SniperSnapshot {
-    public final String itemId;
-    public final int lastPrice;
-    public final int lastBid;
-    public final SniperState state;
+    private final String itemId;
+    private final int lastPrice;
+    private final int lastBid;
+    private final SniperState state;
 
     public SniperSnapshot(String itemId, int lastPrice, int lastBid, SniperState state) {
         this.itemId = itemId;
@@ -15,20 +17,35 @@ public class SniperSnapshot {
         this.state = state;
     }
 
+    public String getItemId() {
+        return itemId;
+    }
+
+    public int getLastPrice() {
+        return lastPrice;
+    }
+
+    public int getLastBid() {
+        return lastBid;
+    }
+
+    public SniperState getState() {
+        return state;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SniperSnapshot that = (SniperSnapshot) o;
-        return lastPrice == that.lastPrice &&
-                lastBid == that.lastBid &&
-                Objects.equals(itemId, that.itemId) &&
-                state == that.state;
+        return EqualsBuilder.reflectionEquals(this, o);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(itemId, lastPrice, lastBid, state);
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 
     public static SniperSnapshot joining(String itemId) {

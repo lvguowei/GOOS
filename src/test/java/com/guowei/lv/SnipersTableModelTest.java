@@ -119,10 +119,10 @@ public class SnipersTableModelTest {
 
 
     private void assertRowMatchesSnapshot(int row, SniperSnapshot snapshot) {
-        assertEquals(snapshot.itemId, cellValue(row, Column.ITEM_IDENTIFIER));
-        assertEquals(snapshot.lastPrice, cellValue(row, Column.LAST_PRICE));
-        assertEquals(snapshot.lastBid, cellValue(row, Column.LAST_BID));
-        assertEquals(SnipersTableModel.textFor(snapshot.state), cellValue(row, Column.SNIPER_STATE));
+        assertEquals(snapshot.getItemId(), cellValue(row, Column.ITEM_IDENTIFIER));
+        assertEquals(snapshot.getLastPrice(), cellValue(row, Column.LAST_PRICE));
+        assertEquals(snapshot.getLastBid(), cellValue(row, Column.LAST_BID));
+        assertEquals(SnipersTableModel.textFor(snapshot.getState()), cellValue(row, Column.SNIPER_STATE));
     }
 
     private Object cellValue(int rowIndex, Column column) {
