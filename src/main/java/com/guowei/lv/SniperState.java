@@ -26,7 +26,8 @@ public enum SniperState {
         }
     },
     LOST,
-    WON;
+    WON,
+    FAILED;
 
     public SniperState whenAuctionClosed() {
         throw new RuntimeException("Auction is already closed");
