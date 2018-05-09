@@ -20,6 +20,14 @@ public class AuctionMessageTranslator implements MessageListener {
 
     @Override
     public void processMessage(Chat chat, Message message) {
+        try {
+            translate(message);
+        } catch (Exception e) {
+            listener.auctionFailed();
+        }
+    }
+
+    private void translate(Message message) {
         AuctionEvent event = AuctionEvent.from(message.getBody());
 
         String type = event.type();
@@ -74,8 +82,12 @@ public class AuctionMessageTranslator implements MessageListener {
             return Integer.parseInt(get(fieldName));
         }
 
-        private String get(String fieldName) {
-            return fields.get(fieldName);
+        private String get(String fieldName) throws MissingValueException {
+            String value = fields.get(fieldName);
+            if (value == null) {
+                throw new MissingValueException(fieldName);
+            }
+            return value;
         }
     }
 }

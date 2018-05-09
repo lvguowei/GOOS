@@ -41,6 +41,11 @@ public class XMPPAuctionHouseTest {
             public void currentPrice(int price, int increment, PriceSource priceSource) {
                 // no op
             }
+
+            @Override
+            public void auctionFailed() {
+
+            }
         };
     }
 
