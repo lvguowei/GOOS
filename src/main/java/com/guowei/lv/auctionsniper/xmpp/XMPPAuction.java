@@ -15,11 +15,13 @@ public class XMPPAuction implements Auction {
     public static String BID_COMMAND_FORMAT = "SOLVersion: 1.1; Command: BID; Price: %d;";
 
     private final Announcer<AuctionEventListener> auctionEventListeners = Announcer.to(AuctionEventListener.class);
+    private final XMPPFailureReporter failureReporter;
     private final Chat chat;
 
-    public XMPPAuction(XMPPConnection connection, String auctionId) {
+    public XMPPAuction(XMPPConnection connection, String auctionId, XMPPFailureReporter failureReporter) {
         AuctionMessageTranslator translator = translatorFor(connection);
         this.chat = connection.getChatManager().createChat(auctionId, translator);
+        this.failureReporter = failureReporter;
         addAuctionEventListener(chatDisconnectorFor(translator));
     }
 
@@ -43,7 +45,7 @@ public class XMPPAuction implements Auction {
     }
 
     private AuctionMessageTranslator translatorFor(XMPPConnection connection) {
-        return new AuctionMessageTranslator(connection.getUser(), auctionEventListeners.announce());
+        return new AuctionMessageTranslator(connection.getUser(), auctionEventListeners.announce(), failureReporter);
     }
 
     @Override

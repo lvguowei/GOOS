@@ -1,5 +1,6 @@
 package com.guowei.lv;
 
+import com.guowei.lv.auctionsniper.xmpp.XMPPAuctionException;
 import org.jivesoftware.smack.XMPPException;
 import org.junit.After;
 import org.junit.Before;
@@ -50,7 +51,7 @@ public class XMPPAuctionHouseTest {
     }
 
     @Before
-    public void createConnection() throws XMPPException {
+    public void createConnection() throws XMPPException, XMPPAuctionException {
         auctionHouse = XMPPAuctionHouse.connect(FakeAuctionServer.XMPP_HOSTNAME, ApplicationRunner.SNIPER_ID, ApplicationRunner.SNIPER_PASSWORD);
     }
 

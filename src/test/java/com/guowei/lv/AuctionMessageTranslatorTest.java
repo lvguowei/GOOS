@@ -1,6 +1,7 @@
 package com.guowei.lv;
 
 import com.guowei.lv.auctionsniper.xmpp.AuctionMessageTranslator;
+import com.guowei.lv.auctionsniper.xmpp.XMPPFailureReporter;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.packet.Message;
 import org.jmock.Expectations;
@@ -19,7 +20,8 @@ public class AuctionMessageTranslatorTest {
 
     private final Mockery context = new Mockery();
     private final AuctionEventListener listener = context.mock(AuctionEventListener.class);
-    private final AuctionMessageTranslator translator = new AuctionMessageTranslator(SNIPER_ID, listener);
+    private final XMPPFailureReporter failureReporter = context.mock(XMPPFailureReporter.class);
+    private final AuctionMessageTranslator translator = new AuctionMessageTranslator(SNIPER_ID, listener, failureReporter);
 
     @Test
     public void notifiesAuctionClosedWhenCloseMessageReceived() {
@@ -55,14 +57,21 @@ public class AuctionMessageTranslatorTest {
 
     @Test
     public void notifiesAuctionFailedWhenBadMessageReceived() {
-        context.checking(new Expectations() {{
-            exactly(1).of(listener).auctionFailed();
-        }});
+        String badMessage = "a bad message";
+
+        expectFailureWithMessage(badMessage);
 
         Message message = new Message();
         message.setBody("a bad message");
 
         translator.processMessage(UNUSED_CHAT, message);
+    }
+
+    private void expectFailureWithMessage(String badMessage) {
+        context.checking(new Expectations() {{
+            oneOf(listener).auctionFailed();
+            oneOf(failureReporter).cannotTranslateMessage(with(SNIPER_ID), with(badMessage), with(any(Exception.class)));
+        }});
     }
 
     @Test
