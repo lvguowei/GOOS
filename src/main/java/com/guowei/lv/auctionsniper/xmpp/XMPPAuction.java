@@ -18,7 +18,32 @@ public class XMPPAuction implements Auction {
     private final Chat chat;
 
     public XMPPAuction(XMPPConnection connection, String auctionId) {
-        chat = connection.getChatManager().createChat(auctionId, new AuctionMessageTranslator(connection.getUser(), auctionEventListeners.announce()));
+        AuctionMessageTranslator translator = translatorFor(connection);
+        this.chat = connection.getChatManager().createChat(auctionId, translator);
+        addAuctionEventListener(chatDisconnectorFor(translator));
+    }
+
+    private AuctionEventListener chatDisconnectorFor(AuctionMessageTranslator translator) {
+        return new AuctionEventListener() {
+            @Override
+            public void auctionClosed() {
+                // no op
+            }
+
+            @Override
+            public void currentPrice(int price, int increment, PriceSource priceSource) {
+                // no op
+            }
+
+            @Override
+            public void auctionFailed() {
+                chat.removeMessageListener(translator);
+            }
+        };
+    }
+
+    private AuctionMessageTranslator translatorFor(XMPPConnection connection) {
+        return new AuctionMessageTranslator(connection.getUser(), auctionEventListeners.announce());
     }
 
     @Override
