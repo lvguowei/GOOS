@@ -1,7 +1,17 @@
 package com.guowei.lv;
 
+import org.apache.commons.io.FileUtils;
+import org.hamcrest.Matcher;
+
+import java.io.File;
+import java.io.IOError;
+import java.io.IOException;
+import java.util.logging.LogManager;
+
 import static com.guowei.lv.FakeAuctionServer.XMPP_HOSTNAME;
 import static com.guowei.lv.SnipersTableModel.textFor;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 
 public class ApplicationRunner {
 
@@ -11,6 +21,8 @@ public class ApplicationRunner {
     public static final String SNIPER_PASSWORD = "sniper";
 
     private AuctionSniperDriver driver;
+
+    private AuctionLogDriver logDriver = new AuctionLogDriver();
 
     public void startBiddingIn(FakeAuctionServer ... auctions) {
         startSniper();
@@ -60,6 +72,7 @@ public class ApplicationRunner {
     }
 
     public void startBiddingWithStopPrice(FakeAuctionServer auction, int stopPrice) {
+        logDriver.clearLog();
         startSniper();
         openBiddingFor(auction, stopPrice);
     }
@@ -78,7 +91,20 @@ public class ApplicationRunner {
         driver.showsSniperStatus(auction.getItemId(), 0, 0, textFor(SniperState.FAILED));
     }
 
-    public void reportsInvalidMessage(FakeAuctionServer auction, String brokenMessage) {
+    public void reportsInvalidMessage(FakeAuctionServer auction, String brokenMessage) throws IOException {
+        logDriver.hasEntry(containsString(brokenMessage));
+    }
 
+    private class AuctionLogDriver {
+        public static final String LOG_FILE_NAME = "auction-sniper.log";
+        private final File logFile = new File(LOG_FILE_NAME);
+
+        public void hasEntry(Matcher<String>matcher) throws IOException {
+            assertThat(FileUtils.readFileToString(logFile), matcher);
+        }
+
+        public void clearLog() {
+            LogManager.getLogManager().reset();
+        }
     }
 }
