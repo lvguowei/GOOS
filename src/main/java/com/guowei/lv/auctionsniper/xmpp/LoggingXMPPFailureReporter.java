@@ -10,6 +10,7 @@ public class LoggingXMPPFailureReporter implements XMPPFailureReporter {
         this.logger = logger;
     }
 
+    @Override
     public void cannotTranslateMessage(String auctionId, String failedMessage, Exception exception) {
         logger.severe(String.format(MESSAGE_FORMAT, auctionId, failedMessage, exception.toString()));
     }
