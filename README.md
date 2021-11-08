@@ -1,3 +1,6 @@
+![goos](https://user-images.githubusercontent.com/2643227/140740729-fb876071-6eea-4425-87fd-9da28e36c19d.jpeg)
+
+
 # GOOS Book Distilled
 
 This project is from the book [Growing Object Oriented Software Guided by Tests](http://www.growing-object-oriented-software.com/), I read every chapter and type in the code.
